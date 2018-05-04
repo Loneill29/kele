@@ -1,5 +1,7 @@
 require 'httparty'
 require './lib/roadmap'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class Kele
   include HTTParty
