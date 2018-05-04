@@ -36,4 +36,19 @@ class Kele
     end
     open
   end
+
+  def get_messages(page = 0)
+    #direct to first page or to a specific page
+   if page > 0
+     page_url = "/message_threads?page=#{page}"
+   else
+     page_url = "/message_threads"
+   end
+      response = self.class.get(page_url, headers: { "authorization" => @auth_token })
+      @messages = JSON.parse(response.body)
+  end
+
+  def create_message(user_id, recipient_id, subject, body)
+    self.class.post("/messages", body: { user_id: user_id, recipient_id: recipient_id, subject: subject, stripped: body })
+  end
 end
