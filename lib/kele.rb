@@ -1,5 +1,7 @@
 require 'httparty'
 require './lib/roadmap'
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 class Kele
   include HTTParty
@@ -48,7 +50,7 @@ class Kele
       @messages = JSON.parse(response.body)
   end
 
-  def create_message(sender, recipient_id, token, subject, stripped_text)
-    self.class.post(api_url("/messages"), body: { sender: sender, recipient_id: recipient_id, token: token, subject: subject, stripped_text: body })
+  def create_message(sender, recipient_id, token, subject, body)
+    self.class.post(api_url("/messages"), body: {sender: sender, recipient_id: recipient_id, token: token, subject: subject, stripped_text: body}, headers: {"authorization" => @auth_token})
   end
 end
